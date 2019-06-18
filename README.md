@@ -1,3 +1,3 @@
 # fundamentosDS
 
-Team members: Hugo, Igor, Marcelo. 
+Team members: Hugo, Igor Carvalho, Marcelo. 
