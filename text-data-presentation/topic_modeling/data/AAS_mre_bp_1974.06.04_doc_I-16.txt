@@ -1,0 +1,248 @@
+ 
+
+aas_nqxq. oó"oq
+
+mmdbp
+
+eletrobrás
+
+cenirais elétricas brasileiras s. a.
+
+p r 0 j e t o d e c o r p u s
+
+'notas preliminares sobre o documento
+
+"evaluacidn de princípio"
+
+[agosto 1878)
+
+define inicialmente o documento que o estudo encomendado ao con-
+
+sõrcio lahmayer-harza tem 3 fases:
+
+i - estudo de pré-viabilidade dos locais de aproveitamento em
+
+diferentes cotas. variando entre 95 e 130m;
++&ii - assistência técnica na negociação internacional da cota:
+
+iii - projeto definitivo. no local e cota que venha a ser acordado.
+
+tendo sido apresentado jãlo relatório preliminar (fase i], que não
+contempla a definição de critérios aplicáveis ã negociação da cota, o documento pretende apresentar uma análise preliminar daque
+les critérios.
+
+apresentação do projeto
+
+são descritos sumariamente as características básicas do projeto,
+
+em 3 variantes de local: ita-cuâ [a], ita-curubi [e] e findo-i
+
+(c]. ' '
+
+acentua que. embora dispondo-se de 60 anos de observações hidrolê
+
+gicas em posadas, adotou-se o período de 20 anos [1955-741 porser
+' o mais representativo e no qual já se refletiu o efeito regulador
+
+dos reservatórios brasileiros de montante, que aumentaram a vazão
+
+mínima mensal em posadas de 3.130 para 5.290m3/s.
+
+os anteprojetos para os 3 looais, entre as cotas 95 e 120m e uma
+
+extrema de lsum, têm uma disposição semelhante até a cota 110 [ver
+
+ 
+
+tedouro central e casas de força laterais]. modifica-se a disposição acima desta cota. com a introdução de uma barragem intermediária entre o vertedouro e a central argentina e mais um degrau
+de eclusas para navegação.
+
+igualmente. até a cota 120m, seriam usadas turbinas kaplan de
+
+,9.5m. semelhante às de yaciretâ.
+
+i-ié
+
+eletrobrás
+
+centrais eléyricas brasileiras s. a.
+
+2.
+
+o sistema de transmissão. compreenderia uma ligação em 220 kv com
+yacireta'e uma linha em corrente contínua [500 kv) até buenos aires, com sska.
+
+adicionalmente haverá uma ponte rodo-ferroviária sobre a barragem
+
+e irrigação de 69.000ha.
+
+aparentemente o local lta-cuã [variante a], é considerado o mais
+
+favorável, pois os dados sempre se referem a ele.
+
+foi realizadó && estudoádeterminando as curvas de remanso para as
+7 alternativas de cotas [ss-136] e vazões variando ent e a mínima
+de 5.060m3/s e a máxima possível de 95.000m3/s. ãíváoaãizfaíoigá"destes remansos sobre itaipu e calculados a potência e energia média
+anual em itaipu sem corpus e. com cada um dos níveis alternativos
+para corpus.
+
+processou-se o estudo, para 18 grupos de 700 mw em itaipu, que org
+duziriam uma descarga máxima de 13.506m3/s, que teria uma potêhoia máxima de 13.207 mw e produção média anual de 71.973 gwh.
+
+os efeitos sobre aoaray também foram calculados, que assim teria
+perdas variáveis entre 2,6% e 21,8% [cota 126]; e igualmente para
+os tributários do paraná.
+
+os estudos subsequentes referem-se a fundamentação de dados para
+
+o projeto final, depois de acordada uma cota.
+
+análise preliminar da cota do reservatório
+
+' a análise dos indicadores econômicos relativos a corpus, mostra
+ram que os mesmos aumentam a partir da cota 120, o que implica que
+
+ 
+
+esta seria a cota limite máxima.
+
+foi feita uma análise indicando quais os custos para uma compensa
+
+ção a itaipu da potência e energia perdidas a cada cota. estes
+
+sobrecustos para corpus, crescem de 46% a 66% entre cota 116 e 120
+para a potência e de 36% a 57% para a energia; aos quais dever-se-ia acrescentar os custos de construção e operação de uma li
+nha de transmissão de 320km entre corpus e itaipu.
+
+este foi o primeiro enfoque do problema, isto é: corpus compensar em potência e energia a itaipu. diretamente. das perdas de
+
+itaipu para diferentes cotas.
+
+eletrobrás
+
+centrais elétricas brasileiras s. a.
+
+3.
+
+como alternativa de critério, parte do princípio de que o rio paranã em porto iguazú deve manter os seus níveis naturais e o regi
+
+me de suas vazões máximas.
+
+tal alternativa, como itaipu não dispõe de uma barragem de re-regularização antes de atingir-se a fronteira na foz do iguaçu. implica. como diz o documento, em limitar-se itaipu a 12 grupos com
+descarga máxima de 9.000m3/s que coincide com a vazão média natural do rio. e portanto, corpus seria o reservatório oompensador
+de itaipu, para as potências de itaipu que excedessem os 12 grupos de 700 mw" e, aduzem, esta situação já está criada com o projato de itaipu com 16 grupos e possíveis incrementos previsíveis
+
+para o futuro.
+
+aponta-se que a descarga de 13.500m3/s utilizada pelos 15 grupos.
+
+ocorre em 13% do tempo apenas, ou sejam 47 dias por ano.
+
+com o acréscimo de mais 5 grupos [total de 24), a descarga seria
+
+de 16.000m3/s, correspondente a 1% do tempo.
+
+assim, desenvolvendo este princípio, apresenta a possibilidade de
+definir a cota de corpus com base na condição de equilíbrio eco
+nõmioo entre os prejuízos de itaipu pelas perdas de potência e e
+ 
+
+nergia causadas pelo remanso e os benefícios de sua supermotorização além dos 12 grupos que constituem o equipamento necessário pa
+
+ra a vazão média de 9.000m3/s em itaipu.
+
+para estabelecer esta relação de equilíbrio, é feita a comparação
+com uma central térmica de condiões operativas semelhantes. são
+feitos diversos cálculos, contemplando estes custos e o do sobre-
+
+equipamento de itaipu.
+
+os resultados estão expressos em alguns gráficos e tabelas, que
+
+poderão ser posteriormente analisados com mais detalhe.
+as conclusões apresentadas. indicariam (sempre dentro do princi"
+
+pio desenvolvido). que:
+
+na cota 132 para corpus (que teria nesta mota uma produção de e
+nergia igual a de yaciretã. 17.100 gwh] haveria condições de equi
+
+ 
+
+librio econômico para 24 grupos em itaipu com os valores máximos
+
+eletrobrás
+
+centrais eléyricas brasileiras s a
+
+4.
+
+dos 2 parâmetros condicionantes [isto é. custo máximo de investimento para o sobre-equipamento de itaipu em us$200.00/kw e custo
+máximo do combustível na central térmica equivalente). esta cota
+
+"portanto. seria o limite inferior, sendo o limite superior repre
+ 
+
+sentado pela cota 106.7. que corresponderia aos valores mínimos
+
+dos 2 parâmetros já mencionados.
+
+ainda, declara o documento, que a produção máxima" economicamente
+obtenível, adotando-se o primeiro princípio - o das compensações
+diretas de corpus a itaipu das perdas - corresponde a 21.259 gwh
+
+liquidos. na cota 120. e, esta seria a mesma energia produtivel
+
+ 
+
+na cota ldsl7 que corresponderia. no segundo critério. às condições de equilíbrio econômico para 24 grupos de 700 mw em itaipu,
+sem compensagões -. adotados os valores médios dos 2 parâmetros
+
+referidos.
+
+a conclusão básica do documento é que, partindo-se do princípio
+de que não podem ser alteradas as condições naturais do regime do
+rio, itaipu teria sua operação limitada a utilização da vazão mê-
+
+dia [e que corresponde a descarga de 12 grupos de 700 mw).
+
+ 
+
+oferece, portanto, para que itaipu utilize até 24 grupos servindo
+o reservatório de corpus como reservatório re-regularizador, em
+
+realidade, uma faixa de negociação entre as cotas 102 e 108,7 pa
+ 
+
+ra corpus que dependeriam da negociação daqueles 2 parâmetros (cu3
+' to do rm de sobre-equipamento em itaipu e custo do combustível da
+
+térmica equivalente] sem haver então compensações outras.
+
+ 
+
+menciona novamente o documento, que a faixa de negociação pode
+ria se situar entre 100 e 110m dentro deste procedimento e que,
+
+ 
+
+& cota 108,7 de corpus representaria uma redução de 7. % de ener
+igia e 8,6% de potência em itaipu.
+
+o documento todo se dirige para apresentar as duas alternativas,
+
+enfatizando marcadamente porém. a segunda.
+
+. a - compensação em potência e energia de corpus a itaipu. pelas
+
+eletrobrás
+
+cg ntrais elétricas brasileiras s. a.
+
+>
+
+5.
+reduções nesta última [mantendo-se o regime natural do rio);
+. e - negociação de uma cota para corpus, sem compensações em potêocia e energia, mas liberando o regime de operação até 24 gru
+pos de 700 mw em itaipu, & ser situada na faixa luz-106,7 metros.
+
