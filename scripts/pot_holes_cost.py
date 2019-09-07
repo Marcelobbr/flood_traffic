@@ -120,7 +120,7 @@ def treat_potholes_points(pot_holes):
 
 ## Match roads to points
 
-def get_extended_edges(city, edges=None, batch_size=10000, cached=True, cache_result=True):
+def get_extended_edges(city, edges=None, batch_size=10000, hex_res=8, cached=True, cache_result=True):
 
     def apply_redistribute_vertices(proj_edges, dist=10):
         edges = proj_edges.copy()
@@ -133,7 +133,7 @@ def get_extended_edges(city, edges=None, batch_size=10000, cached=True, cache_re
     try:
         if not cached:
             raise
-        with open(str(RAW_PATH/city/'extended_edges.p'), 'rb') as f:
+        with open(str(RAW_PATH/city/f'extended_edges_hex_res{hex_res}.p'), 'rb') as f:
             extended = pickle.load(f)
     except:
         assert edges is not None, "edges DataFrame must be provided"  
@@ -152,17 +152,18 @@ def get_extended_edges(city, edges=None, batch_size=10000, cached=True, cache_re
         extended['points'] = extended['proj_points'].to_crs('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs')
         extended['lon'] = extended.apply(lambda row: row["points"].x, axis=1)
         extended['lat'] = extended.apply(lambda row: row["points"].y, axis=1)
-        extended["hex_id"] = extended.apply(lambda row: h3.geo_to_h3(row["lat"], row["lon"], 8), axis = 1)
+        extended["hex_id"] = extended.apply(lambda row: h3.geo_to_h3(row["lat"], row["lon"], hex_res), axis = 1)
+        extended.hex_res = hex_res
 
         if cache_result:
-            with open(str(RAW_PATH/city/'extended_edges.p'), 'wb') as f:
+            with open(str(RAW_PATH/city/f'extended_edges_hex_res{hex_res}.p'), 'wb') as f:
                 pickle.dump(extended, f)
 
             extended.drop(columns='points').to_csv(OUTPUT_PATH/city/"extended_edges.csv")
         
     return extended
 
-def get_hex_KDTrees(city, extended=None, cached=True, cache_result=True):
+def get_hex_KDTrees(city, res=8, extended=None, cached=True, cache_result=True):
 
     def get_edges_idx_in_hex(hex_id, extended):
         return extended.loc[extended.hex_id == hex_id, 'index'].unique()
@@ -179,10 +180,11 @@ def get_hex_KDTrees(city, extended=None, cached=True, cache_result=True):
     try:
         if not cached:
             raise
-        with open(str(RAW_PATH/city/'h3_hex_KDTree.p'), 'rb') as f:
+        with open(str(RAW_PATH/city/f'h3_hex{res}_KDTree.p'), 'rb') as f:
             h3_hex = pickle.load(f)
     except:
         assert extended is not None, "extended DataFrame must be provided"
+        assert extended.hex_res == res, "extended hex_res differ from res"
         h3_hex = pd.DataFrame(extended["hex_id"].unique(), columns=['hex_id']).set_index('hex_id', drop=False)
         h3_hex["hex_ring1"] = h3_hex["hex_id"].apply(h3.k_ring, 1, args=(1,))
         h3_hex['edges_idx_in_hex'] = h3_hex['hex_id'].apply(get_edges_idx_in_hex,args=(extended,))
@@ -193,13 +195,13 @@ def get_hex_KDTrees(city, extended=None, cached=True, cache_result=True):
         h3_hex.crs = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
         
         if cache_result:
-            with open(str(RAW_PATH/city/'h3_hex_KDTree.p'), 'wb') as f:
+            with open(str(RAW_PATH/city/f'h3_hex{res}_KDTree.p'), 'wb') as f:
                 pickle.dump(h3_hex, f)
 
     return h3_hex
 
 
-def match_edges_to_points_by_hex(city, pot_holes, G_proj):
+def match_edges_to_points_by_hex(city, pot_holes, G_proj, hex_res=8):
     
     edges = ox.graph_to_gdfs(G_proj, nodes=False, fill_edge_geometry=True)
 
@@ -220,11 +222,11 @@ def match_edges_to_points_by_hex(city, pot_holes, G_proj):
         # np.zeros(ne.shape[0], dtype=int)
         return np.c_[ne , pot_holes_byhex[['uuid', 'interactions']].values]    
     
-    extended = get_extended_edges(city, edges)
+    extended = get_extended_edges(city, edges, hex_res=hex_res)
 
-    h3_hex = get_hex_KDTrees(city, extended)
+    h3_hex = get_hex_KDTrees(city, extended, res=hex_res)
     
-    pot_holes['hex_id'] = pot_holes.apply(lambda row: h3.geo_to_h3(row["latitude"], row["longitude"], 8), axis = 1)
+    pot_holes['hex_id'] = pot_holes.apply(lambda row: h3.geo_to_h3(row["latitude"], row["longitude"], hex_res), axis = 1)
     pot_holes_proj = pot_holes.to_crs(edges.crs)
     pot_holes_hexs = set(pot_holes_proj['hex_id'].values)
     
@@ -240,7 +242,9 @@ def match_roads_to_points(city, pot_holes, G_proj, by=None):
     '''
     Use projected non-simplified Graph for better accuracy in identifying pothole location
     '''
-    if by == 'hex':
+    if by and by[:3] == 'hex':
+        if by[3:]:
+            return match_edges_to_points_by_hex(city, pot_holes, G_proj, hex_res=int(by[3:]))
         return match_edges_to_points_by_hex(city, pot_holes, G_proj)
 
     pot_holes_proj = pot_holes.to_crs(G_proj.graph['crs'])
