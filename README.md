@@ -1,10 +1,11 @@
 # Flood and Traffic Jam analysis
 
-This is a final project related to the class Data Science Fundamentals at EMAp-FGV. Jorge Poco.
+This is a final project related to the class Data Science Fundamentals at [EMAp-FGV](https://emap.fgv.br), ministered by professor Jorge Poco.
 
 ## Team members 
-* Hugo Barroso Barreto 
-* Marcelo B. Barata Ribeiro. 
+* [Hugo Barroso Barreto](https://www.linkedin.com/in/hugobarreto1105/)
+* [Marcelo B. Barata Ribeiro](https://www.linkedin.com/in/marcelo-barata-ribeiro-213b8733/ 
+)
 
 ## Background, Motivation and Objectives
 
@@ -59,17 +60,6 @@ The weather data comprises many features. We considered only wind speed and prec
 ## Pre-processing
 We had to do some treatment to our data. In case of Rio de Janeiro, which is a spacially big city, we noticed that the data from Dark Sky changed according to neighborhoods. To address this problem, we selected three different neighborhoods (Barra, Lagoa Rodrigo de Freitas and Meier and calculated the average value of features such as wind speed and precipitation intensity.
 
-# Visualization
-We considered some visualization principles, such as the Data-Ink ratio, a concept introduced by Edward Tufte, which establishes that a good visualization should maximize the proportion of data against the "ink" used. In other words, we should avoid noise as much as possible from the information that we want our stakeholders to absorb.
-
-* Usando pacotes de visualização do python e talvez programas como Tableau para tanto gerar gráficos de estatísticas, quanto para gerar mapas.
-* Gráficos de precipitação e desvios da média do trânsito.
-* Gerar gráficos por cidades para poder comparar.
-* Plotar gráficos (scatterplots, por exemplo) para relacionar precipitação com incidentes.
-## Color selection
-* [I want hue](http://tools.medialab.sciences-po.fr/iwanthue)
-* [Color Brewer](http://colorbrewer2.org)
-
 # Files List
 static: Elementos estáticos da página web (CSS e imagens estáticas).
 templates: Templates html usados para renderizar o website.
@@ -108,4 +98,13 @@ Also, to build videos from maps, we used the follwoing programs:
 * Microsoft Power Point: an office package program. We used  it to record animations from other programs such as kepler.
 * Windows Fotos: to edit our videos.
 
-# Results
+# Data Exploration, Predictions and Final Comments
+To check for all visualizations and predicions developed in this project, we suggest that you go to the corresponding website where we placed all relevant products. 
+
+Who should benefit the most from this project?
+
+We envision local governments as our main stakeholders. They should be the most interested entity in consuming this type of data. The common drawbacks for them is that generally, worldwide, public sector don't have the skills to access this data . Even when it is accessible, they don't have the capabilities to interpret it and restructure into insightful visualizations so that decision makers can sketch better alert systems and prevention. Also, by understanding the most affected spots in a city network, they can also design more focused public policies. Public money is a scarce resource, so it should be used wisely and in the most efficient way, benefiting the most of the population.
+
+That's where Data Scientist strive! Data without insights is like a raw mineral buried underground. It has no value until someone digs in and refines it. It is hard work, but in the end we are able to offer a good product, something valuable to someone.
+
+Was this project interesting to you? Do you have any suggestions? Let us know so that we can improve it!
