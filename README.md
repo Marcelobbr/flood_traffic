@@ -33,24 +33,23 @@ To answer these questions, we planned  the following pipeline:
 * Identify patterns which might bring some preventive measures or which might feed alert * systems to local governments.
 
 # Files List
-static: Elementos estáticos da página web (CSS e imagens estáticas).
-templates: Templates html usados para renderizar o website.
-hw1.pdf: Esse arquivo contém o enunciado (desafio) proposto em cada uma das etapas do projeto.
-hw1.sqlite: Base de dados em SQLite criada para armazenar as informações coletadas do google scholar.
-database_and_graphics.ipynb: Notebook em Python com a descrição / documentação do código usado nas etapas de criação e atualização da base de dados, assim como das visualizações inseridas no website.
-database_and_graphics.py: Código em Python para criação e atualização da base de dados e das visualizações (mesmo código que está documentado no arquivo .ipynb).
-routes.py: script python que inicializa o website com Flask e suas funcionalidades.
-scholar.ipynb: Notebook com a documentação do código utilizado na etapa de web scraping. Também explica como fazer o download do chromedriver com as funções do módulo scrape_scholar.py.
-scrape_scholar.py: Script em Python para coletar as informações do perfil do autor pesquisado no Google Scholar. Também contém uma função para fazer download automático do chromedriver (driver do google chrome necessário na etapa de web scraping)
+* data: all project outputs
+    * raw: data sources from where we did data transformation to build clean data and other outputs
+    * outputs: results from data cleansing and treatments. The folder might store images, html files for interactive images, and clean data.
+* docs: some documentation about the project and references.
+* notebooks: all python scripts to operate with stored data, generate images and so on.
 
-## Files map
-* data: 
-* docs: some documentation about the project
-* notebooks
+For the notebooks. here is a description for them:
+* alerts_exploratory_analysis: basic exploration of metadata of csvs containing alerts from Waze.
+* weather_scraper: acrapes data from DarkSky API and saves into JSON file. Then filters mostly features which will be used for data processing and visualizations and saves to csv file.
+* weather-EDA: designed to build basic statistical analysis, exploratory analysis of metadata, compare daily to hourly data, build static and interactive visualizations from a whole year timestamp for weather features.
+* weather_rj_neighborhoods: designed to compare differences of weather data from three distinct neighborhoods of Rio de Janeiro: Meier, Lagoa Rodrigo de Freitas and Barra da Tijuca. From our analysis, we noticed that important fvariables such as precipitation changed according to neighborhood. So we decided to use average value.
+* csv_merger: it was built to merge waze data from flood and general alerts, so that we could use them as input to visualize maps of kepler.gl.
+* MergingData: 
 
 # Requirements
 ## Anaconda (recommended)
-We chose Python 3 as our Programming Language. Our scripts were developed using Anaconda distribution and it is. Anaconda brings with it some important python packages such as pandas, numpy and sklearn. If you are new to python, it would take you much more effort to install each package individually by yourself
+We chose Python3 as our Programming Language. Our scripts were developed using Anaconda distribution and it is. Anaconda brings with it some important python packages such as pandas, numpy and sklearn. If you are new to python, it would take you much more effort to install each package individually by yourself
 
 You need to also install other python libraries which were essential to develop our project:
 > - altair - networkx - h3 - folium - descartes - shapely - seaborn
