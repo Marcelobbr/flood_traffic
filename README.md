@@ -65,6 +65,7 @@ conda install <name_of_package>
 ```
 Important note: if you are using windows, you should use the terminal from Anaconda CLI or make sure that Anaconda was included to PATH.
 
+## Others
 Also, to build videos from maps, we used the follwoing programs:
 * [Kepler.gl](https://kepler.gl): it is a data-agnostic, high-performance web-based application for visual exploration of large-scale geolocation data sets. It is effective to build beautiful data-driven maps and we think it might provide great impact on our audience. 
 * Microsoft Power Point: an office package program. We used  it to record animations from other programs such as kepler.
