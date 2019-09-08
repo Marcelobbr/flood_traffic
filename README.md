@@ -32,34 +32,6 @@ To answer these questions, we planned  the following pipeline:
 * Develop predictive analysis with data of weather and traffic.
 * Identify patterns which might bring some preventive measures or which might feed alert * systems to local governments.
 
-# It's All About Data
-## Data Sources
-Our main data sources were:
-* Waze
-    * It is a GPS navigation software app owned by Google. It works on smartphones and tablet computers that have GPS support. Waze describes its app as a community-driven GPS navigation app.
-* [Dark Sky API](https://darksky.net/dev)
-    * It provides API requests to retrieve weather data anywhere in the world. Dark Sky is backed by a wide range of weather data sources, which are aggregated together to provide the most accurate forecast possible for a given location.
-* [OpenStreetMap](https://www.openstreetmap.org)
-    * It is a collaborative project to create a free editable map of the world. The geodata underlying the map is considered the primary output of the project.
-
-## Featured places
-We worked with three places from South America. To collect their corresponding data, we retrieved the latitude and longitude to build our requests from the APIs. After that, we had to deal with the raw data generally in JSON format, then selected the most important features and transformed it on more readable formats such as Pandas and CSV.
-* Rio de Janeiro (2nd biggest city of Brazil)
-* Montevideo (capital of Uruguay)
-* Miraflores (a neighborhood from Lima, capital of Peru)
-
-## Feature selection
-### Waze
-The most important features from waze database which we used are
-* Type: user-generated alerts such as accidents, jams, weather hazards and constructions.
-* Subtype: More detailed descriptions of user-generated alerts. For instance, a weather hazard might describe flood, road ice or fog.
-* Street: the streets of a city.
-### Dark Sky
-The weather data comprises many features. We considered only wind speed and precipitation intensity. Other variables were excluded from our analysis, such as many temperature variables, other wind variables, cloud cover and humidity. The reason is that we considered the weather hazard conditions mostly correlated to traffic incidents.
-
-## Pre-processing
-We had to do some treatment to our data. In case of Rio de Janeiro, which is a spacially big city, we noticed that the data from Dark Sky changed according to neighborhoods. To address this problem, we selected three different neighborhoods (Barra, Lagoa Rodrigo de Freitas and Meier and calculated the average value of features such as wind speed and precipitation intensity.
-
 # Files List
 static: Elementos estáticos da página web (CSS e imagens estáticas).
 templates: Templates html usados para renderizar o website.
@@ -97,6 +69,34 @@ Also, to build videos from maps, we used the follwoing programs:
 * [Kepler.gl](https://kepler.gl): it is a data-agnostic, high-performance web-based application for visual exploration of large-scale geolocation data sets. It is effective to build beautiful data-driven maps and we think it might provide great impact on our audience. 
 * Microsoft Power Point: an office package program. We used  it to record animations from other programs such as kepler.
 * Windows Fotos: to edit our videos.
+
+# It's All About Data
+## Data Sources
+Our main data sources were:
+* Waze
+    * It is a GPS navigation software app owned by Google. It works on smartphones and tablet computers that have GPS support. Waze describes its app as a community-driven GPS navigation app.
+* [Dark Sky API](https://darksky.net/dev)
+    * It provides API requests to retrieve weather data anywhere in the world. Dark Sky is backed by a wide range of weather data sources, which are aggregated together to provide the most accurate forecast possible for a given location.
+* [OpenStreetMap](https://www.openstreetmap.org)
+    * It is a collaborative project to create a free editable map of the world. The geodata underlying the map is considered the primary output of the project.
+
+## Featured places
+We worked with three places from South America. To collect their corresponding data, we retrieved the latitude and longitude to build our requests from the APIs. After that, we had to deal with the raw data generally in JSON format, then selected the most important features and transformed it on more readable formats such as Pandas and CSV.
+* Rio de Janeiro (2nd biggest city of Brazil)
+* Montevideo (capital of Uruguay)
+* Miraflores (a neighborhood from Lima, capital of Peru)
+
+## Feature selection
+### Waze
+The most important features from waze database which we used are
+* Type: user-generated alerts such as accidents, jams, weather hazards and constructions.
+* Subtype: More detailed descriptions of user-generated alerts. For instance, a weather hazard might describe flood, road ice or fog.
+* Street: the streets of a city.
+### Dark Sky
+The weather data comprises many features. We considered only wind speed and precipitation intensity. Other variables were excluded from our analysis, such as many temperature variables, other wind variables, cloud cover and humidity. The reason is that we considered the weather hazard conditions mostly correlated to traffic incidents.
+
+## Pre-processing
+We had to do some treatment to our data. In case of Rio de Janeiro, which is a spacially big city, we noticed that the data from Dark Sky changed according to neighborhoods. To address this problem, we selected three different neighborhoods (Barra, Lagoa Rodrigo de Freitas and Meier and calculated the average value of features such as wind speed and precipitation intensity.
 
 # Data Exploration, Predictions and Final Comments
 To check for all visualizations and predicions developed in this project, we suggest that you go to the corresponding website where we placed all relevant products. 
