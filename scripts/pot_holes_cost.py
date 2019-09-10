@@ -16,9 +16,6 @@ from shapely.geometry import Point, Polygon
 from scipy.spatial import cKDTree
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-abs_path = '/home/master/cts/cities/waze-tools'
-sys.path.append(abs_path)
-
 import scripts.sqlaws as sqlaws
 from scripts.mod_simplify import simplify_graph
 
@@ -81,41 +78,12 @@ def download_osm_graph(city, osm_place=None, shapefile=None, north=None, south=N
                 ox.save_load.save_graphml(G, filename=(city+'_ns.graphml'), folder=str(RAW_PATH/city))
     return G
 
-def download_interactions_data(city, cities):
-    """Deprected"""
-    
-    query = """
-    select DISTINCT uuid, MAX(thumbs_up)
-    from waze.alerts
-    where subtype = 'HAZARD_ON_ROAD_POT_HOLE'
-    and city = '{city}'
-    group by uuid
-    """.format(city=city)
-    cities[city]['potholes_interactions'] = pd.read_sql_query(query, con=con)
-    cities[city]['potholes_interactions'].columns = ['uuid', 'interactions']
-    return cities
-
-def get_cities_metadata():
-    """Deprected"""
-    return pd.read_sql_table('cities_stats', schema='waze', con=con).set_index('city_as_waze').to_dict('index')
-
-def get_timerange(city):
-
-    """Deprected"""
-    
-    query = """
-    select MIN(pub_utc_date) as "initial date", MAX(pub_utc_date) as "final date"
-    from waze.alerts
-    where subtype = 'HAZARD_ON_ROAD_POT_HOLE'
-    and city = '{city}'
-    """.format(city=city)
-    return pd.read_sql_query(query, con=con)
 
 ## Treat data
 
-def treat_potholes_points(pot_holes):
+def treat_alerts_points(alerts):
     
-    return gpd.GeoDataFrame(pot_holes, geometry=gpd.points_from_xy(pot_holes['longitude'], pot_holes['latitude']), crs="+init=epsg:4326")
+    return gpd.GeoDataFrame(alerts, geometry=gpd.points_from_xy(alerts['longitude'], alerts['latitude']), crs="+init=epsg:4326")
     
 
 ## Match roads to points
@@ -201,18 +169,18 @@ def get_hex_KDTrees(city, res=8, extended=None, cached=True, cache_result=True):
     return h3_hex
 
 
-def match_edges_to_points_by_hex(city, pot_holes, G_proj, hex_res=8):
+def match_edges_to_points_by_hex(city, alerts, G_proj, hex_res=8):
     
     edges = ox.graph_to_gdfs(G_proj, nodes=False, fill_edge_geometry=True)
 
-    def query_KDTree(row, pot_holes_proj, pot_holes_hexs, extended):
+    def query_KDTree(row, alerts_proj, alerts_hexs, extended):
         hex_id = row['hex_id']
         # Some hexagons in the city may not have reported pot-holes        
-        if hex_id not in pot_holes_hexs:
+        if hex_id not in alerts_hexs:
             return np.array([], dtype=np.int64).reshape(0,5)
-        pot_holes_byhex = pot_holes_proj.loc[pot_holes_proj.hex_id == hex_id]
-        X = pot_holes_byhex['geometry'].apply(lambda row: row.x).values 
-        Y = pot_holes_byhex['geometry'].apply(lambda row: row.y).values
+        alerts_byhex = alerts_proj.loc[alerts_proj.hex_id == hex_id]
+        X = alerts_byhex['geometry'].apply(lambda row: row.x).values 
+        Y = alerts_byhex['geometry'].apply(lambda row: row.y).values
 
         points = np.array([X, Y]).T
         _, idx = row['KDTree'].query(points, k=1)  # Returns ids of closest point
@@ -220,15 +188,15 @@ def match_edges_to_points_by_hex(city, pot_holes, G_proj, hex_res=8):
         ne = edges.loc[eidx, ['u', 'v','key']]
         
         # np.zeros(ne.shape[0], dtype=int)
-        return np.c_[ne , pot_holes_byhex[['uuid', 'interactions']].values]    
+        return np.c_[ne , alerts_byhex[['uuid', 'interactions']].values]    
     
     extended = get_extended_edges(city, edges, hex_res=hex_res)
 
     h3_hex = get_hex_KDTrees(city, extended, res=hex_res)
     
-    pot_holes['hex_id'] = pot_holes.apply(lambda row: h3.geo_to_h3(row["latitude"], row["longitude"], hex_res), axis = 1)
-    pot_holes_proj = pot_holes.to_crs(edges.crs)
-    pot_holes_hexs = set(pot_holes_proj['hex_id'].values)
+    alerts['hex_id'] = alerts.apply(lambda row: h3.geo_to_h3(row["latitude"], row["longitude"], hex_res), axis = 1)
+    alerts_proj = alerts.to_crs(edges.crs)
+    alerts_hexs = set(alerts_proj['hex_id'].values)
     
     edges_potholes = np.vstack(tuple(h3_hex.apply(query_KDTree, 1, args=(pot_holes_proj, pot_holes_hexs, extended)).values))
     edges_potholes = pd.DataFrame(edges_potholes, columns=['u','v','key','alerts_count','interactions'])
@@ -238,229 +206,52 @@ def match_edges_to_points_by_hex(city, pot_holes, G_proj, hex_res=8):
 
 
 
-def match_roads_to_points(city, pot_holes, G_proj, by=None):
+def match_roads_to_points(city, alerts, G_proj, by=None, nearest_edges=False):
     '''
     Use projected non-simplified Graph for better accuracy in identifying pothole location
     '''
     if by and by[:3] == 'hex':
         if by[3:]:
-            return match_edges_to_points_by_hex(city, pot_holes, G_proj, hex_res=int(by[3:]))
-        return match_edges_to_points_by_hex(city, pot_holes, G_proj)
+            return match_edges_to_points_by_hex(city, alerts, G_proj, hex_res=int(by[3:]))
+        return match_edges_to_points_by_hex(city, alerts, G_proj)
 
-    pot_holes_proj = pot_holes.to_crs(G_proj.graph['crs'])
+    alerts_proj = alerts.to_crs(G_proj.graph['crs'])
     
-    X = pot_holes_proj['geometry'].apply(lambda row: row.x).values 
-    Y = pot_holes_proj['geometry'].apply(lambda row: row.y).values 
+    X = alerts_proj['geometry'].apply(lambda row: row.x).values 
+    Y = alerts_proj['geometry'].apply(lambda row: row.y).values 
 
     edges_potholes = ox.utils.get_nearest_edges(G_proj, X, Y, method='kdtree', dist=10)
     
     edges_potholes = np.c_[edges_potholes, np.zeros(edges_potholes.shape[0], dtype=int), 
-                              pot_holes_proj[['uuid', 'interactions']].values]
+                              alerts_proj[['uuid', 'interactions']].values]
+
+    if nearest_edges:
+        return pd.DataFrame(edges_potholes, columns=['u','v','k','uuid','interactions'])
 
     edges_potholes = pd.DataFrame(edges_potholes, columns=['u','v','k','alerts_count','interactions'])
 
     edges_potholes = edges_potholes.groupby(['u','v','k']).agg({'alerts_count': 'count', 'interactions': 'sum'}).to_dict('index')
     
     # Caching
-    #pot_holes.to_csv(OUTPUT_PATH / city / 'alerts_to_segments.csv')
+    #alerts.to_csv(OUTPUT_PATH / city / 'alerts_to_segments.csv')
     #edges.to_csv(OUTPUT_PATH /  city /  'potholes_full.csv')
     
     return edges_potholes
 
-## Basic Stats
+def project_alert_on_nearest_edge(city, alerts, G_proj):
 
-def generate_basic_stats(city, G):
+    edges = ox.graph_to_gdfs(G_proj, nodes=False, fill_edge_geometry=True).set_index(['u','v','key'])
+    alerts = alerts.to_crs(G_proj.graph['crs'])
+
+    nearest_edges = match_roads_to_points(city, alerts, G_proj, nearest_edges=True)
+
+    alerts = alerts.set_index('uuid')
+
+    nearest_edges['line'] = nearest_edges.apply(lambda row: edges.loc[(row['u'], row['v'],row['k']), 'geometry'], 1)
+    nearest_edges['point'] = nearest_edges.uuid.apply(lambda uuid: alerts.loc[uuid, 'geometry'], 1)
     
-    edges = ox.graph_to_gdfs(G, nodes=False) 
-    
-    stats = {}
+    return nearest_edges.apply(lambda row: row['line'].interpolate(row['line'].project(row['point'])), 1).values
 
-    stats['Total Street Length (km)'] = sum(edges['length'])/1000
-    
-    stats['City Total Number of Street Segments'] = len(edges)
-    
-    stats['Segments with potholes (#)'] = len(edges[edges['alerts_count'] > 0])
-
-    stats['Segments with potholes (%)'] = stats['Segments with potholes (#)'] /  len(edges)  * 100
-
-    stats['Segments Distance with potholes (km)'] = sum(edges[edges['alerts_count'] > 0]['length']) / 1000
-
-    stats['Segments Distance with potholes (%)'] = stats['Segments Distance with potholes (km)'] / (sum(edges['length'])/1000) * 100
-
-    stats = pd.DataFrame.from_dict(stats, 'index')
-    stats.columns = [city]
-
-    # Caching
-    stats.to_csv(OUTPUT_PATH / city / 'stats.csv')
-
-    return stats
-
-def generate_cost_estimates(city, G, cost_per_meter, lane_size, avg_numberOf_lanes=None):
-    
-    edges = ox.graph_to_gdfs(G, nodes=False) 
-    
-    stats = {}
-    
-    stats['Average Reparing Cost per Square Meter (U$)'] = cost_per_meter
-    
-    stats['Average Street Lane Width (meters)'] = lane_size
-    
-    if avg_numberOf_lanes:
-        stats['Average Number of Lanes in Street Segments'] = avg_numberOf_lanes
-    
-    stats['Estimated Fixing Cost (U$)'] = sum(edges[edges['alerts_count'] > 0]['length']) * cost_per_meter * lane_size 
-
-    stats = pd.DataFrame.from_dict(stats, 'index')
-    stats.columns = [city]
-    
-    # Caching
-    stats.to_csv(OUTPUT_PATH / city / 'cost.csv')
-    
-    return stats
-
-## Estimate Number of Lanes
-
-def convert_lane_type(lane):
-
-    try:
-        lane = int(lane)
-    except:
-        lane = None
-    
-    return lane
-
-def estimate_number_of_lanes(edges):
-
-    full = edges.dropna(subset=['lanes'])
-
-    full['lanes'] = full['lanes'].apply(convert_lane_type)
-
-    return full.groupby(['highway']).mean()['lanes']
-
-## Estimate Cost
-
-def estimate_lane_cost(segment, cost_per_meter, lane_size, estimate_lanes_per_highway=None):
-    
-#     segment = segment.fillna(1)
-        
-#     if segment['lanes'] != 0:
-    
-#         try:
-#             return float(segment['lanes']) * segment['length'] * cost_per_meter * lane_size
-#         except:
-#             print(type(segment['lanes']))
-#             print(type(segment['length']))
-            
-    return lane_size * segment['length'] * cost_per_meter #* estimate_lanes_per_highway[segment['highway']]
-
-def estimate_cost(edges, estimate_lanes_per_highway=None,
-                  cost_per_meter=30, lane_size=2.8):
-
-    edges['cost'] = edges[edges['alerts_count'] > 0].apply(estimate_lane_cost, axis=1, args=(estimate_lanes_per_highway,
-                                                                                           cost_per_meter, lane_size))
-    
-    return edges
-
-## Interactions
-
-def merge_interactions_with_edges(pot_holes, edges):
-
-    segments_interactions = pot_holes.merge((pot_holes['geometry_ids'].apply(pd.Series)
-                                             .stack()
-                                             .reset_index(level=1, drop=True)
-                                             .to_frame('geometry_ids')), left_index=True, right_index=True, how='right')
-
-    segments_interactions = segments_interactions.groupby('geometry_ids_y').sum()['interactions'].to_frame()
-    edges = edges.merge(segments_interactions, right_index=True, left_on='geometry_id', how='left')
-    edges['interactions'] = edges['interactions'].fillna(0)
-    return pot_holes, edges
-
-## Pareto
-
-def calculate_pareto(edges, suffix=''): 
-
-    edges['pareto'+suffix] = edges[edges['alerts_count'] > 0]['interactions'].sort_values(ascending=False).cumsum() / edges[edges['alerts_count'] > 0]['interactions'].sum() * 100
-
-    return edges
-
-def calculate_price_pareto(percentage, pareto, edges):
-    idx = pareto[pareto <= percentage * 100].index
-    selected = edges.loc[idx]
-    return selected['cost'].sum(), len(selected), selected['interactions'].sum()
-
-def summary_pareto(city, edges):
-
-    cost_pareto = [{'percentage interactions': 0,
-                    'price share (%)': 0,
-                    'total cost (U$)': 0,
-                    'number of segments': 0,
-                    'number of interactions': 0}]
-    total_price = edges['cost'].sum()
-    pareto = edges['pareto']
-    for i in range(1, 21):
-        price, size, interactions = calculate_price_pareto(i/20, pareto, edges)
-        cost_pareto.append({'percentage interactions': i*5,
-                        'price share (%)': round(price / total_price * 100, 1),
-                        'total cost (U$)': price,
-                        'number of segments': int(size),
-                        'number of interactions': int(interactions)})
-    
-    cost_pareto = pd.DataFrame(cost_pareto)
-
-    # Cache
-    pd.DataFrame(cost_pareto).to_csv(OUTPUT_PATH  / city / 'pareto_cost.csv')
-    
-    return cost_pareto
-
-## Export Kepler
-
-def export_kepler(city, edges):
-
-    edges['log_interactions'] = edges['interactions'].apply(np.log10)
-
-    a = edges[['geometry', 'alerts_count', 'name', 'interactions',
-                              'log_interactions', 'cost', 'pareto']]
-                              
-    a = a[a['pareto'].notnull()]
-    
-    a.to_csv(OUTPUT_PATH / city / 'potholes_plot.csv')
-    
-    return a
-    
-    
-## Save Table
-
-def render_mpl_table(data, save_path, city, col_width=4.0, row_height=0.625, font_size=14,
-                     header_color='#40466e', row_colors=['#f1f1f2', 'w'], edge_color='w',
-                     bbox=[0, 0, 1, 1], header_columns=0,
-                     ax=None, **kwargs):
-    if ax is None:
-        size = (np.array(data.shape[::-1]) + np.array([0, 1])) * np.array([col_width, row_height])
-        fig, ax = plt.subplots(figsize=size)
-        ax.margins(0)
-        ax.tick_params(which='both', left=False, bottom=False,  labelleft=False, labelbottom=False)
-        # ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        # ax.spines['bottom'].set_visible(False)
-        ax.spines['left'].set_visible(False)
-
-    mpl_table = ax.table(cellText=data.values, bbox=bbox, colLabels=data.columns, **kwargs)
-
-    mpl_table.auto_set_font_size(False)
-    mpl_table.set_fontsize(font_size)
-
-    for k, cell in  six.iteritems(mpl_table._cells):
-        cell.set_edgecolor(edge_color)
-        if k[0] == 0 or k[1] < header_columns:
-            cell.set_text_props(weight='bold', color='w')
-            cell.set_facecolor(header_color)
-        else:
-            cell.set_facecolor(row_colors[k[0]%len(row_colors) ])
-    
-    # save figure
-    ax.get_figure().savefig(OUTPUT_PATH / city / save_path, bbox_inches='tight')
-    
-    return fig, ax, mpl_table
 
 ## Plotting
 
