@@ -43,15 +43,17 @@ For the notebooks. here is a description for them:
 * alerts_exploratory_analysis: basic exploration of metadata of csvs containing alerts from Waze.
 * weather_scraper: acrapes data from DarkSky API and saves into JSON file. Then filters mostly features which will be used for data processing and visualizations and saves to csv file.
 * weather-EDA: designed to build basic statistical analysis, exploratory analysis of metadata, compare daily to hourly data, build static and interactive visualizations from a whole year timestamp for weather features.
-* weather_rj_neighborhoods: designed to compare differences of weather data from three distinct neighborhoods of Rio de Janeiro: Meier, Lagoa Rodrigo de Freitas and Barra da Tijuca. From our analysis, we noticed that important fvariables such as precipitation changed according to neighborhood. So we decided to use average value.
-* csv_merger: it was built to merge waze data from flood and general alerts, so that we could use them as input to visualize maps of kepler.gl.
+* weather_rj_neighborhoods: designed to compare differences of weather data from three distinct neighborhoods of Rio de Janeiro: Meier, Lagoa Rodrigo de Freitas and Barra da Tijuca. From our analysis, we noticed that important variables such as precipitation changed according to neighborhood. So we decided to use average value.
+<!-- * csv_merger: it was built to merge waze data from flood and general alerts, so that we could use them as input to visualize maps of kepler.gl. -->
 * MergingData: 
+* PreparingDataForKepler: it prepares data for the visualization in Kepler.
+* Modelling Attempts: a notebook intended to build analysis and other failed visualizations. We kept the file for the possibility of fixing it later.
 
 # Requirements
 ## Anaconda (recommended)
 We chose Python3 as our Programming Language. Our scripts were developed using Anaconda distribution and it is. Anaconda brings with it some important python packages such as pandas, numpy and sklearn. If you are new to python, it would take you much more effort to install each package individually by yourself
 
-You need to also install other python libraries which were essential to develop our project:
+You need to also make sure you installed other python libraries which were essential to develop our project:
 > - altair - networkx - h3 - folium - descartes - shapely - seaborn
 
 For the instalation, you need yo type the following command in your terminal:
@@ -69,6 +71,7 @@ Also, to build videos from maps, we used the follwoing programs:
 * [Kepler.gl](https://kepler.gl): it is a data-agnostic, high-performance web-based application for visual exploration of large-scale geolocation data sets. It is effective to build beautiful data-driven maps and we think it might provide great impact on our audience. 
 * Microsoft Power Point: an office package program. We used  it to record animations from other programs such as kepler.
 * Windows Fotos: to edit our videos.
+* Audiopedia: a program to edit audio and music.
 
 # It's All About Data
 ## Data Sources
@@ -98,9 +101,10 @@ The weather data comprises many features. We considered only wind speed and prec
 ## Pre-processing
 We had to do some treatment to our data. In case of Rio de Janeiro, which is a spacially big city, we noticed that the data from Dark Sky changed according to neighborhoods. To address this problem, we selected three different neighborhoods (Barra, Lagoa Rodrigo de Freitas and Meier and calculated the average value of features such as wind speed and precipitation intensity.
 
-# Data Exploration, Predictions and Final Comments
-To check for all visualizations and predicions developed in this project, we suggest that you go to the corresponding website where we placed all relevant products. 
+# Data Exploration and Predictions
+To check for all visualizations and predicions developed in this project, we suggest that you go to the [corresponding website](https://sites.google.com/view/weathertraffic) where we placed all relevant products. 
 
+# Final Comments
 Who should benefit the most from this project?
 
 We envision local governments as our main stakeholders. They should be the most interested entity in consuming this type of data. The common drawbacks for them is that generally, worldwide, public sector don't have the skills to access this data . Even when it is accessible, they don't have the capabilities to interpret it and restructure into insightful visualizations so that decision makers can sketch better alert systems and prevention. Also, by understanding the most affected spots in a city network, they can also design more focused public policies. Public money is a scarce resource, so it should be used wisely and in the most efficient way, benefiting the most of the population.
