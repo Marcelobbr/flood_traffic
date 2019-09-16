@@ -10,19 +10,16 @@ import copy
 
 from folium import Map, Marker, GeoJson
 from folium.plugins import MarkerCluster
-import branca.colormap as cm
+import branca.colormap as bcm
 from branca.colormap import linear
 import folium
 
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from IPython.display import Image, display
-from IPython.utils.text import columnize
 import warnings
 warnings.filterwarnings('ignore')
 
-from IPython.core.display import display, HTML
 
 def visualize_hexagons(hexagons, color="red", folium_map=None):
     """
@@ -121,12 +118,12 @@ def choropleth_map(df_aggreg, border_color = 'black', fill_opacity = 0.7, initia
     #the colormap 
     #color names accepted https://github.com/python-visualization/branca/blob/master/branca/_cnames.json
     if kind == "linear":
-        custom_cm = cm.LinearColormap(['green','yellow','red'], vmin=min_value, vmax=max_value)
+        custom_bcm = bcm.LinearColormap(['green','yellow','red'], vmin=min_value, vmax=max_value)
     elif kind == "outlier":
         #for outliers, values would be -11,0,1
-        custom_cm = cm.LinearColormap(['blue','white','red'], vmin=min_value, vmax=max_value)
+        custom_bcm = bcm.LinearColormap(['blue','white','red'], vmin=min_value, vmax=max_value)
     elif kind == "filled_nulls":
-        custom_cm = cm.LinearColormap(['sienna','green','yellow','red'], 
+        custom_bcm = bcm.LinearColormap(['sienna','green','yellow','red'], 
                                       index=[0,min_value,m,max_value],vmin=min_value,vmax=max_value)
    
 
@@ -141,7 +138,7 @@ def choropleth_map(df_aggreg, border_color = 'black', fill_opacity = 0.7, initia
     GeoJson(
         geojson_data,
         style_function=lambda feature: {
-            'fillColor': custom_cm(feature['properties']['value']),
+            'fillColor': custom_bcm(feature['properties']['value']),
             'color': border_color,
             'weight': 1,
             'fillOpacity': fill_opacity 
@@ -151,7 +148,7 @@ def choropleth_map(df_aggreg, border_color = 'black', fill_opacity = 0.7, initia
 
     #add legend (not recommended if multiple layers)
     if with_legend == True:
-        custom_cm.add_to(initial_map)
+        custom_bcm.add_to(initial_map)
     
     
     
