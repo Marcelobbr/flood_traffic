@@ -4,8 +4,7 @@ This is a final project related to the class Data Science Fundamentals at [EMAp-
 
 ## Team members 
 * [Hugo Barroso Barreto](https://www.linkedin.com/in/hugobarreto1105/)
-* [Marcelo B. Barata Ribeiro](https://www.linkedin.com/in/marcelo-barata-ribeiro-213b8733/ 
-)
+* [Marcelo B. Barata Ribeiro](https://www.linkedin.com/in/marcelo-barata-ribeiro-213b8733/)
 
 ## Background, Motivation and Objectives
 
@@ -41,7 +40,7 @@ To answer these questions, we planned  the following pipeline:
 
 For the notebooks. here is a description for them:
 * Alerts Exploratory Analysis: basic exploration of metadata of csvs containing alerts from Waze.
-* AUXNOTEBOOK-weather_scraper: acrapes data from DarkSky API and saves into JSON file. Then filters mostly features which will be used for data processing and visualizations and saves to csv file.
+* AUXNOTEBOOK-weather_scraper: scrapes data from DarkSky API and saves into JSON file. Then filters mostly features which will be used for data processing and visualizations and saves to csv file.
 * Weather EDA: designed to build basic statistical analysis, exploratory analysis of metadata, compare daily to hourly data, build static and interactive visualizations from a whole year timestamp for weather features.
 * AUXNOTEBOOK-weather_rj_neighborhoods: designed to compare differences of weather data from three distinct neighborhoods of Rio de Janeiro: Meier, Lagoa Rodrigo de Freitas and Barra da Tijuca. From our analysis, we noticed that important variables such as precipitation changed according to neighborhood. So we decided to use average value.
 * AUXNOTEBOOK-PreparingDataForKepler: it prepares data for the visualization in Kepler.
