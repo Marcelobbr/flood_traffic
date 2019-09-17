@@ -33,28 +33,29 @@ To answer these questions, we planned  the following pipeline:
 * Identify patterns which might bring some preventive measures or which might feed alert * systems to local governments.
 
 # Files List
-* data: all project outputs
+* data: all project inputs/outputs files
     * raw: data sources from where we did data transformation to build clean data and other outputs
     * outputs: results from data cleansing and treatments. The folder might store images, html files for interactive images, and clean data.
 * docs: some documentation about the project and references.
 * notebooks: all python scripts to operate with stored data, generate images and so on.
 
 For the notebooks. here is a description for them:
-* alerts_exploratory_analysis: basic exploration of metadata of csvs containing alerts from Waze.
-* weather_scraper: acrapes data from DarkSky API and saves into JSON file. Then filters mostly features which will be used for data processing and visualizations and saves to csv file.
-* weather-EDA: designed to build basic statistical analysis, exploratory analysis of metadata, compare daily to hourly data, build static and interactive visualizations from a whole year timestamp for weather features.
-* weather_rj_neighborhoods: designed to compare differences of weather data from three distinct neighborhoods of Rio de Janeiro: Meier, Lagoa Rodrigo de Freitas and Barra da Tijuca. From our analysis, we noticed that important variables such as precipitation changed according to neighborhood. So we decided to use average value.
-<!-- * csv_merger: it was built to merge waze data from flood and general alerts, so that we could use them as input to visualize maps of kepler.gl. -->
-* MergingData: 
-* PreparingDataForKepler: it prepares data for the visualization in Kepler.
+* Alerts Exploratory Analysis: basic exploration of metadata of csvs containing alerts from Waze.
+* AUXNOTEBOOK-weather_scraper: acrapes data from DarkSky API and saves into JSON file. Then filters mostly features which will be used for data processing and visualizations and saves to csv file.
+* Weather EDA: designed to build basic statistical analysis, exploratory analysis of metadata, compare daily to hourly data, build static and interactive visualizations from a whole year timestamp for weather features.
+* AUXNOTEBOOK-weather_rj_neighborhoods: designed to compare differences of weather data from three distinct neighborhoods of Rio de Janeiro: Meier, Lagoa Rodrigo de Freitas and Barra da Tijuca. From our analysis, we noticed that important variables such as precipitation changed according to neighborhood. So we decided to use average value.
+* AUXNOTEBOOK-PreparingDataForKepler: it prepares data for the visualization in Kepler.
 * Modelling Attempts: a notebook intended to build analysis and other failed visualizations. We kept the file for the possibility of fixing it later.
+* Miraflores Modelling/Montevideo Modelling/Rio de Janeiro Modelling: notebooks for statistical modeling of the occurrence of flood alerts in the respective city.
 
 # Requirements
 ## Anaconda (recommended)
 We chose Python3 as our Programming Language. Our scripts were developed using Anaconda distribution and it is. Anaconda brings with it some important python packages such as pandas, numpy and sklearn. If you are new to python, it would take you much more effort to install each package individually by yourself
 
 You need to also make sure you installed other python libraries which were essential to develop our project:
-> - altair - networkx - h3 - folium - descartes - shapely - seaborn
+> numpy - pandas - geopandas - altair - networkx - osmnx - h3 - folium - descartes - shapely - seaborn
+
+This is not an exhaustive list of packages, we recommend using our [conda environments](#conda-environments).
 
 For the instalation, you need yo type the following command in your terminal:
 ```sh
@@ -65,6 +66,28 @@ or
 conda install <name_of_package>
 ```
 Important note: if you are using windows, you should use the terminal from Anaconda CLI or make sure that Anaconda was included to PATH.
+
+### Conda Environments
+
+Some of our notebooks use different programming environments and each environment has its own version of the packages installed. 
+
+The utility of using more than one environment is to avoid conflicts between different versions and package dependencies.
+
+To enable the use of Kernels based on different environments in Jupyter's notebooks it is necessary to install the package [nb_conda_kernels](https://github.com/Anaconda-Platform/nb_conda_kernels).
+
+```sh
+conda install nb_conda_kernels
+```
+
+Our notebooks use two distinct environments:
+* altair
+* ox_gpd
+
+In this repository, you will find the environment.yml files, a recipe to rebuild the environment we created. To create an environment from its .yml file, run:
+
+```sh
+conda env create -f environment.yml
+```
 
 ## Others
 Also, to build videos from maps, we used the follwoing programs:

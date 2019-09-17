@@ -71,6 +71,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+.ipynb
 
 # pyenv
 .python-version
@@ -106,3 +107,6 @@ venv.bak/
 #marcelo
 images/
 media/
+
+#project specifics
+Rio\ de\ Janeiro_ns.graphml
